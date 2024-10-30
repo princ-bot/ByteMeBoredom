@@ -17,14 +17,23 @@ public class number_to_words_converter {
   };
 
   private static String convertLessThanOneThousand(int number) {
-    if (number == 0)
-      return "";
-    if (number < 20)
-      return NUM_NAMES[number];
-    int tens = number / 10;
-    int ones = number % 10;
-    return TENS_NAMES[tens] + (ones > 0 ? "-" + NUM_NAMES[ones] : "");
-  }
+    String words = "";
+
+    if (number % 100 < 20) {
+        words = NUM_NAMES[number % 100];
+        number /= 100;
+    } else {
+        words = NUM_NAMES[number % 10];
+        number /= 10;
+
+        words = TENS_NAMES[number % 10] + (words.isEmpty() ? "" : "-" + words);
+        number /= 10;
+    }
+
+    if (number == 0) return words.trim(); // Ensure trailing space is trimmed
+    String hundred = NUM_NAMES[number] + " hundred";
+    return words.equals("zero") ? hundred : hundred + " " + words;
+}
 
   public static String convertNumberToWords(int number) {
     if (number == 0)
@@ -50,9 +59,9 @@ public class number_to_words_converter {
 
   public static void main(String[] args) {
     try (Scanner sc = new Scanner(System.in)) {
-      System.out.println("Enter a number: ");
+      System.out.print("Enter a number: ");
       int number = sc.nextInt();
-      System.out.println(convertNumberToWords(number));
+      System.out.println("String = " + convertNumberToWords(number));
     }
   }
 }
