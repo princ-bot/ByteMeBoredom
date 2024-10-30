@@ -30,7 +30,7 @@ public class number_to_words_converter {
         number /= 10;
     }
 
-    if (number == 0) return words.trim(); // Ensure trailing space is trimmed
+    if (number == 0) return words.trim();
     String hundred = NUM_NAMES[number] + " hundred";
     return words.equals("zero") ? hundred : hundred + " " + words;
 }
